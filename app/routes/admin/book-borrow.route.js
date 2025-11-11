@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const bookBorrowController = require("../../controllers/admin/book-borrow.controller");
+const bookBorrowController = require("../../controllers/book-borrow.controller");
 
 router
   .route("/")

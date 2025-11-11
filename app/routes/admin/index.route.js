@@ -10,7 +10,11 @@ const staffRouter = require("./staff.route");
 router.use("/readers", readerRouter);
 router.use("/books", bookRouter);
 router.use("/publishers", publisherRouter);
-router.use("/borrow-books", bookBorrowRouter);
-router.use("/staff", staffRouter);
+router.use("/book-borrows", bookBorrowRouter);
+router.use("/staffs", staffRouter);
+
+router.get("/", (req, res) => {
+  res.json({ message: "Xin chao, admin" });
+});
 
 module.exports = router;
