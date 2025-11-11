@@ -3,8 +3,8 @@ const MongoDB = require("../utils/mongodb.util");
 const StaffService = require("../services/staff.service");
 
 exports.create = async (req, res, next) => {
-  if (!req.body?.MaNV || !req.body?.Password) {
-    return next(new ApiError(400, "MaNV and Password can't be empty"));
+  if (!req.body?.MSNV || !req.body?.Password) {
+    return next(new ApiError(400, "MSNV and Password can't be empty"));
   }
   try {
     const staffService = new StaffService(MongoDB.client);

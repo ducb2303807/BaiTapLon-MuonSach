@@ -9,7 +9,7 @@ class ReaderService {
     const reader = {
       MaDocGia: payload.MaDocGia,
       Username: payload.Username,
-      password: payload.password,
+      Password: payload.password,
       HoLot: payload.HoLot,
       Ten: payload.Ten,
       NgaySinh: payload.NgaySinh,

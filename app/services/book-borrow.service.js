@@ -24,7 +24,7 @@ class BookBorrowService {
     const bookBorrow = this.extractTBookBorrowData(payload);
     const result = await this.BookBorrow.findOneAndUpdate(
       bookBorrow,
-      { $set: { TrangThai: "Đang mượn" } },
+      { $set: { TrangThai: payload.TrangThai || "Đang mượn" } },
       {
         returnDocument: "after",
         upsert: true,
@@ -42,6 +42,37 @@ class BookBorrowService {
     return await this.find({
       name: { $regex: new RegExp(name), $options: "i" },
     });
+  }
+
+  async findById(id) {
+    return await this.BookBorrow.findOne({
+      _id: ObjectId.isValid(id) ? new ObjectId(id) : null,
+    });
+  }
+
+  async update(id, payload) {
+    const filter = {
+      _id: ObjectId.isValid(id) ? new ObjectId(id) : null,
+    };
+    const update = this.extractTBookBorrowData(payload);
+    const result = await this.BookBorrow.findOneAndUpdate(
+      filter,
+      { $set: update },
+      { returnDocument: "after" }
+    );
+    return result;
+  }
+
+  async delete(id) {
+    const result = await this.BookBorrow.findOneAndDelete({
+      _id: ObjectId.isValid(id) ? new ObjectId(id) : null,
+    });
+    return result;
+  }
+
+  async deleteAll() {
+    const result = await this.BookBorrow.deleteMany({});
+    return result;
   }
 }
 

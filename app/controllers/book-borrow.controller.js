@@ -1,6 +1,7 @@
 const ApiError = require("../api-error");
 const MongoDB = require("../utils/mongodb.util");
 const BookBorrowService = require("../services/book-borrow.service");
+const ReaderService = require("../services/reader.service");
 
 exports.create = async (req, res, next) => {
   if (!req.body?.MaDocGia || !req.body?.MaSach || !req.body?.NgayMuon) {
@@ -34,8 +35,12 @@ exports.findAll = async (req, res, next) => {
 
 exports.findByUser = async (req, res, next) => {
   try {
+    // id đọc giả -> Mã đọc giả
+    const readerService = new ReaderService(MongoDB.client);
+    const { MaDocGia } = await readerService.findById(req.params.id);
+    // find book borrow by MaDocGia
     const bookBorrowService = new BookBorrowService(MongoDB.client);
-    const documents = await bookBorrowService.findByUser(req.params.id);
+    const documents = await bookBorrowService.find({ MaDocGia: MaDocGia });
     return res.send(documents);
   } catch (error) {
     return next(
@@ -47,7 +52,8 @@ exports.findByUser = async (req, res, next) => {
 exports.findOne = async (req, res, next) => {
   try {
     const bookBorrowService = new BookBorrowService(MongoDB.client);
-    const document = await bookBorrowService.findById(req.params.borrowId);
+    const _id = req.params.borrowId || req.params.id;
+    const document = await bookBorrowService.findById(_id);
     if (!document) {
       return next(new ApiError(404, "Book borrow not found"));
     }

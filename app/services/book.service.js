@@ -1,5 +1,5 @@
 const { ObjectId } = require("mongodb");
-const PublisherService = require("./Publisher.service");
+const PublisherService = require("./publisher.service");
 const ApiError = require("../api-error");
 
 class BookService {
@@ -7,6 +7,7 @@ class BookService {
     this.Book = client.db().collection("Sach");
   }
 
+  // check khoa ngoai
   async keyCheck(payload) {
     const { MaSach, MaNXB } = payload;
     if (!MaSach) throw new ApiError(400, "MaSach can't be empty");
@@ -35,7 +36,6 @@ class BookService {
 
   async create(payload) {
     const book = this.extractBookData(payload);
-    await this.keyCheck(book);
     const result = await this.Book.findOneAndUpdate(
       book,
       { $set: {} },

@@ -3,15 +3,14 @@ const MongoDB = require("../utils/mongodb.util");
 const BookService = require("../services/book.service");
 
 exports.create = async (req, res, next) => {
+  if (!req.body?.MaSach) {
+    return next(new ApiError(400, "MaSach can't be empty"));
+  }
   try {
     const bookService = new BookService(MongoDB.client);
     const document = await bookService.create(req.body);
     return res.send(document);
   } catch (error) {
-    if (error instanceof ApiError) {
-      console.log(error);
-      return next(error);
-    }
     return next(new ApiError(500, "An error occurred while creating the book"));
   }
 };

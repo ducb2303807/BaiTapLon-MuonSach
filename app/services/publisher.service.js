@@ -5,7 +5,7 @@ class PublisherService {
   constructor(client) {
     this.Publisher = client.db().collection("NhaXuatBan");
   }
-
+  // check khoa ngoai
   async keyCheck(payload) {
     const { MaNXB } = payload;
     if (!MaNXB) throw new ApiError(400, "MaNXB can't be empty");
@@ -28,9 +28,6 @@ class PublisherService {
 
   async create(payload) {
     const publisher = this.extractPublisherData(payload);
-    if (await this.primaryKeyCheck(publisher.MaNXB)) {
-      return null;
-    }
     const result = await this.Publisher.findOneAndUpdate(
       publisher,
       { $set: {} },

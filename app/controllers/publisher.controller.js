@@ -9,9 +9,6 @@ exports.create = async (req, res, next) => {
   try {
     const publisherService = new PublisherService(MongoDB.client);
     const document = await publisherService.create(req.body);
-    if (document === null) {
-      return next(new ApiError(400, "MaNXB already exists"));
-    }
     return res.send(document);
   } catch (error) {
     return next(

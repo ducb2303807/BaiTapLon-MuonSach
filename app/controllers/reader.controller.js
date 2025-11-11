@@ -4,7 +4,7 @@ const ReaderService = require("../services/reader.service");
 
 exports.create = async (req, res, next) => {
   if (!req.body?.MaDocGia || !req.body?.Password) {
-    return next(new ApiError(400, "MaSach can't be empty"));
+    return next(new ApiError(400, "MaDocGia and Password can't be empty"));
   }
   try {
     const readerService = new ReaderService(MongoDB.client);
